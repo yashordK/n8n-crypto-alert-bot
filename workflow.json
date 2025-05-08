@@ -1,0 +1,73 @@
+{
+    "name": "Crypto Price & Wallet Alert",
+    "nodes": [
+      {
+        "parameters": {
+          "url": "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd",
+          "responseFormat": "json"
+        },
+        "id": "Coingecko ETH Price",
+        "name": "Fetch ETH Price",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [200, 200]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "number": [
+              {
+                "value1": "={{ $json[\"ethereum\"][\"usd\"] }}",
+                "operation": "smaller",
+                "value2": 3000
+              }
+            ]
+          }
+        },
+        "id": "Check Price Condition",
+        "name": "Price < $3000?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [400, 200]
+      },
+      {
+        "parameters": {
+          "url": "https://discord.com/api/webhooks/1369915305161134161/zxmR42lljEzK7LLDv6glSxUKdU5F7h258zPav3LVWD_sC2X1YOJm4GeAWLiEZmtPMnCj",
+          "method": "POST",
+          "jsonParameters": true,
+          "options": {},
+          "bodyParametersJson": "{\n  \"content\": \"🚨 ETH price has dropped below $3000! Current Price: ${{ $json[\"ethereum\"][\"usd\"] }} USD\"\n}"
+        },
+        "id": "Send Discord Alert",
+        "name": "Send Discord Alert",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [600, 200]
+      }
+    ],
+    "connections": {
+      "Fetch ETH Price": {
+        "main": [
+          [
+            {
+              "node": "Price < $3000?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Price < $3000?": {
+        "main": [
+          [
+            {
+              "node": "Send Discord Alert",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    }
+  }
+  

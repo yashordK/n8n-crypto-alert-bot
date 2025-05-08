@@ -1,0 +1,69 @@
+{
+    "nodes": [
+      {
+        "parameters": {
+          "url": "https://api.etherscan.io/api?module=account&action=balance&address=0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045&tag=latest&apikey=PI36IXMI9J3T6J6DVURUHC52A5XCTCZ5S2",
+          "responseFormat": "json"
+        },
+        "name": "Fetch Wallet Balance",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [200, 400]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "number": [
+              {
+                "value1": "={{ $json.result / 1e18 }}",
+                "operation": "smaller",
+                "value2": 0.05
+              }
+            ]
+          }
+        },
+        "name": "Balance < 0.05 ETH?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 1,
+        "position": [400, 400]
+      },
+      {
+        "parameters": {
+          "url": "https://discord.com/api/webhooks/1369915305161134161/zxmR42lljEzK7LLDv6glSxUKdU5F7h258zPav3LVWD_sC2X1YOJm4GeAWLiEZmtPMnCj",
+          "method": "POST",
+          "jsonParameters": true,
+          "options": {},
+          "bodyParametersJson": "{\n  \"content\": \"⚠️ Wallet balance alert! Current balance is under 0.05 ETH.\"\n}"
+        },
+        "name": "Wallet Discord Alert",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 2,
+        "position": [600, 400]
+      }
+    ],
+    "connections": {
+      "Fetch Wallet Balance": {
+        "main": [
+          [
+            {
+              "node": "Balance < 0.05 ETH?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Balance < 0.05 ETH?": {
+        "main": [
+          [
+            {
+              "node": "Wallet Discord Alert",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    }
+  }
+  
