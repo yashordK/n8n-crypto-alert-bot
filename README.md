@@ -25,7 +25,7 @@ This project is a real-time crypto monitoring automation using **n8n**, integrat
 
 ---
 
-## 📸 Preview
+## 📸 Workflow Preview
 
 > ![Workflow Preview](./preview.png)
 
@@ -38,6 +38,9 @@ This project is a real-time crypto monitoring automation using **n8n**, integrat
 3. Set your environment variables (API keys, thresholds)  
 4. Test the trigger and receive alerts on your Discord server  
 
+---
+## Discord Messages Preview
+> ![Discord Preview](./discord.png)
 ---
 
 ## 🧠 Why This Matters
