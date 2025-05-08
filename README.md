@@ -10,7 +10,7 @@ This project is a real-time crypto monitoring automation using **n8n**, integrat
 ## 🛠️ Features
 
 - Monitor ETH price and alert on Discord when it drops below a threshold
-- Track wallet balance or transaction changes (via Etherscan)
+- Track wallet balance (say Vitalik's) or transaction changes (via Etherscan)
 - Fully automated using n8n's visual workflow builder
 - Modular and easily customizable
 
